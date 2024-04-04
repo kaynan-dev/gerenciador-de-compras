@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulário de Compras Mensais</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 600px;
+        margin: 50px auto;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        padding: 20px;
+    }
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
+    form {
+        text-align: center;
+    }
+    input[type="text"],
+    input[type="number"],
+    select {
+        width: calc(100% - 22px);
+        padding: 10px;
+        margin-bottom: 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #f2f2f2;
+    }
+    input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+
+    /* Estilos para dispositivos móveis */
+    @media (max-width: 600px) {
+        .container {
+            margin: 20px;
+            padding: 10px;
+        }
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Formulário de Compras Mensais</h2>
+
+    <form id="comprasForm">
+        <input type="text" id="item" placeholder="Nome do item">
+        <input type="number" id="quantidade" placeholder="Quantidade">
+        <select id="unidade">
+            <option value="unidade">Unidade</option>
+            <option value="quilo">Quilo</option>
+        </select>
+        <input type="text" id="preco" placeholder="Preço">
+        <input type="submit" value="Adicionar">
+    </form>
+
+    <table id="tabelaCompras">
+        <tr>
+            <th>Item</th>
+            <th>Quantidade</th>
+            <th>Preço</th>
+            <th>Total</th>
+        </tr>
+    </table>
+</div>
+
+<script>
+    document.getElementById("comprasForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        
+        var item = document.getElementById("item").value;
+        var quantidade = parseFloat(document.getElementById("quantidade").value);
+        var unidade = document.getElementById("unidade").value;
+        var preco = parseFloat(document.getElementById("preco").value);
+        
+        if (item && quantidade && unidade && preco) {
+            var total = unidade === 'quilo' ? quantidade * preco : quantidade;
+            
+            var tabela = document.getElementById("tabelaCompras").getElementsByTagName('tbody')[0];
+            var novaLinha = tabela.insertRow(tabela.rows.length);
+            var celulaItem = novaLinha.insertCell(0);
+            var celulaQuantidade = novaLinha.insertCell(1);
+            var celulaPreco = novaLinha.insertCell(2);
+            var celulaTotal = novaLinha.insertCell(3);
+            
+            celulaItem.innerHTML = item;
+            celulaQuantidade.innerHTML = quantidade + ' ' + unidade;
+            celulaPreco.innerHTML = preco.toFixed(2);
+            celulaTotal.innerHTML = total.toFixed(2);
+            
+            document.getElementById("item").value = "";
+            document.getElementById("quantidade").value = "";
+            document.getElementById("preco").value = "";
+        } else {
+            alert("Por favor, preencha todos os campos.");
+        }
+    });
+</script>
+
+</body>
+</html>
